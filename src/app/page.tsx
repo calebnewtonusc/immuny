@@ -36,7 +36,7 @@ export default function Home() {
       }}
       onWheel={handleWheel}
     >
-      {/* Logo — top left */}
+      {/* Logo, top left */}
       <a
         href="https://www.immuny.ai/"
         target="_blank"
@@ -46,9 +46,9 @@ export default function Home() {
         <Image
           src="/immuny-logo.avif"
           alt="Immuny"
-          width={28}
-          height={28}
-          className="rounded-lg object-contain opacity-70 group-hover:opacity-100 transition-opacity duration-200"
+          width={56}
+          height={56}
+          className="rounded-xl object-contain opacity-70 group-hover:opacity-100 transition-opacity duration-200"
           unoptimized
         />
         <span
@@ -92,7 +92,7 @@ export default function Home() {
         </IPhoneMockup>
       </div>
 
-      {/* immuny.ai — right of phone */}
+      {/* immuny.ai, right of phone */}
       <a
         href="https://www.immuny.ai/"
         target="_blank"

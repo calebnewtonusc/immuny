@@ -2,8 +2,8 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Immuny — Interactive Prototype",
-  description: "Immuny allergy emergency app — interactive UX redesign prototype",
+  title: "Immuny, Interactive Prototype",
+  description: "Immuny allergy emergency app, interactive UX redesign prototype",
 };
 
 export const viewport: Viewport = {

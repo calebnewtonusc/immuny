@@ -24,8 +24,8 @@ const meds = [
 const conditions = ["Anaphylaxis Risk", "Mild Asthma", "Seasonal Allergies"];
 
 const contacts = [
-  { initial: "M", name: "Mom — Maria Rivera", phone: "+12135550189", color: "#007AFF" },
-  { initial: "D", name: "Dad — Carlos Rivera", phone: "+12135550177", color: "#34C759" },
+  { initial: "M", name: "Mom, Maria Rivera", phone: "+12135550189", color: "#007AFF" },
+  { initial: "D", name: "Dad, Carlos Rivera", phone: "+12135550177", color: "#34C759" },
 ];
 
 export default function MedicalIDScreen({ navigate, goBack }: Props) {
@@ -97,7 +97,7 @@ export default function MedicalIDScreen({ navigate, goBack }: Props) {
             <div style={{ display: "flex", flexWrap: "wrap", gap: "5px" }}>
               {allergens.map(({ label, severity }) => (
                 <span key={label} style={{ padding: "4px 10px", borderRadius: "8px", background: "rgba(255,59,48,0.15)", fontSize: "11px", fontWeight: 600, color: "#FF5A4E" }}>
-                  {label} — {severity}
+                  {label}, {severity}
                 </span>
               ))}
             </div>

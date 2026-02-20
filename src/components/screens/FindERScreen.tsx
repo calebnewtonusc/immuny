@@ -92,7 +92,7 @@ export default function FindERScreen({ navigate, goBack }: Props) {
             <div style={{ width: "10px", height: "10px", borderRadius: "50%", background: "#1C1C1E", border: "2.5px solid white", boxShadow: "0 2px 6px rgba(0,0,0,0.2)" }} />
           </div>
           <p style={{ position: "absolute", left: "33%", top: "84%", transform: "translateX(-50%)", fontSize: "7px", fontWeight: 700, color: "#8E8E93" }}>YOU</p>
-          {/* Pins — ER red, UC gray */}
+          {/* Pins, ER red, UC gray */}
           {[
             { left: "19%", top: "24%", label: "ER", isER: true  },
             { left: "58%", top: "34%", label: "ER", isER: true  },
