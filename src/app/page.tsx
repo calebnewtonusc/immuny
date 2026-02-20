@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import IPhoneMockup from "@/components/IPhoneMockup";
 import AppShell from "@/components/AppShell";
 
@@ -35,6 +36,35 @@ export default function Home() {
       }}
       onWheel={handleWheel}
     >
+      {/* Logo — top left */}
+      <a
+        href="https://www.immuny.ai/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="absolute top-6 left-6 z-20 flex items-center gap-2.5 group"
+      >
+        <Image
+          src="/immuny-logo.avif"
+          alt="Immuny"
+          width={28}
+          height={28}
+          className="rounded-lg object-contain opacity-70 group-hover:opacity-100 transition-opacity duration-200"
+          unoptimized
+        />
+        <span
+          style={{
+            fontSize: "12px",
+            fontWeight: 600,
+            color: "rgba(255,255,255,0.35)",
+            letterSpacing: "0.08em",
+            transition: "color 0.2s ease",
+          }}
+          className="group-hover:text-white"
+        >
+          IMMUNY
+        </span>
+      </a>
+
       {/* Ambient glow */}
       <div
         className="absolute pointer-events-none"
