@@ -18,42 +18,37 @@ const tabs: { id: NavTab; Icon: typeof Home; label: string }[] = [
 ];
 
 export default function BottomNav({ active, navigate, dark = false }: BottomNavProps) {
-  const borderColor = dark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.07)";
-  const bg = dark ? "#0d1117" : "#ffffff";
+  const bg     = dark ? "#0a0a0a"                    : "#ffffff";
+  const border = dark ? "rgba(255,255,255,0.07)"     : "rgba(0,0,0,0.07)";
 
   return (
-    <div
-      className="flex items-center justify-around flex-shrink-0"
-      style={{
-        height: "54px",
-        paddingBottom: "6px",
-        paddingTop: "6px",
-        paddingLeft: "8px",
-        paddingRight: "8px",
-        borderTop: `1px solid ${borderColor}`,
-        background: bg,
-      }}
-    >
+    <div style={{ display: "flex", height: "52px", background: bg, borderTop: `1px solid ${border}`, flexShrink: 0 }}>
       {tabs.map(({ id, Icon, label }) => {
         const isActive = active === id;
-        const color = isActive ? "#00C896" : dark ? "rgba(255,255,255,0.3)" : "#9CA3AF";
+        const color    = isActive ? "#00C896" : (dark ? "rgba(255,255,255,0.28)" : "#AEAEB2");
         return (
           <button
             key={id}
             onClick={() => navigate(id)}
             style={{
+              flex: 1,
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
+              justifyContent: "flex-end",
+              paddingBottom: "8px",
               gap: "3px",
-              padding: "4px 12px",
-              borderRadius: "12px",
-              background: isActive ? "rgba(0,200,150,0.08)" : "transparent",
-              transition: "all 0.15s ease",
+              background: "transparent",
+              borderLeft: "none",
+              borderRight: "none",
+              borderBottom: "none",
+              borderTop: `2px solid ${isActive ? "#00C896" : "transparent"}`,
+              cursor: "pointer",
+              outline: "none",
             }}
           >
-            <Icon size={20} color={color} strokeWidth={isActive ? 2.5 : 1.5} />
-            <span style={{ fontSize: "9px", fontWeight: isActive ? 700 : 500, color }}>
+            <Icon size={19} color={color} strokeWidth={isActive ? 2.2 : 1.5} />
+            <span style={{ fontSize: "9px", fontWeight: isActive ? 700 : 400, color, letterSpacing: "0.01em" }}>
               {label}
             </span>
           </button>

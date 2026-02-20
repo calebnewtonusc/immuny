@@ -145,24 +145,25 @@ export default function EmergencyScreen({ navigate, goBack }: Props) {
         </div>
 
         {/* Actions */}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "8px" }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: "8px", paddingBottom: "12px" }}>
           <a href="tel:911" style={{ textDecoration: "none" }}>
-            <div style={{ padding: "11px 8px", background: "#FF3B30", borderRadius: "14px", display: "flex", flexDirection: "column", alignItems: "center", gap: "4px", boxShadow: "0 4px 14px rgba(255,59,48,0.3)" }}>
-              <Phone size={18} color="white" strokeWidth={2} />
-              <span style={{ fontSize: "10px", fontWeight: 700, color: "white" }}>Call 911</span>
+            <div style={{ width: "100%", padding: "15px", background: "#FF3B30", borderRadius: "16px", display: "flex", alignItems: "center", justifyContent: "center", gap: "10px", boxShadow: "0 6px 22px rgba(255,59,48,0.42)" }}>
+              <Phone size={22} color="white" strokeWidth={2.5} />
+              <span style={{ fontSize: "17px", fontWeight: 800, color: "white", letterSpacing: "-0.2px" }}>Call 911</span>
             </div>
           </a>
-          <button onClick={() => navigate("find-er")} style={{ padding: "11px 8px", background: "#1C1C1E", borderRadius: "14px", display: "flex", flexDirection: "column", alignItems: "center", gap: "4px", border: "none" }}>
-            <MapPin size={18} color="rgba(255,255,255,0.65)" strokeWidth={2} />
-            <span style={{ fontSize: "10px", fontWeight: 600, color: "rgba(255,255,255,0.5)" }}>Find ER</span>
-          </button>
-          <button onClick={() => navigate("medical-id")} style={{ padding: "11px 8px", background: "#1C1C1E", borderRadius: "14px", display: "flex", flexDirection: "column", alignItems: "center", gap: "4px", border: "none" }}>
-            <Share2 size={18} color="rgba(255,255,255,0.65)" strokeWidth={2} />
-            <span style={{ fontSize: "10px", fontWeight: 600, color: "rgba(255,255,255,0.5)" }}>Share ID</span>
-          </button>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px" }}>
+            <button onClick={() => navigate("find-er")} style={{ padding: "12px", background: "#1C1C1E", borderRadius: "14px", display: "flex", alignItems: "center", justifyContent: "center", gap: "7px", border: "none" }}>
+              <MapPin size={16} color="rgba(255,255,255,0.6)" strokeWidth={2} />
+              <span style={{ fontSize: "13px", fontWeight: 600, color: "rgba(255,255,255,0.55)" }}>Find ER</span>
+            </button>
+            <button onClick={() => navigate("medical-id")} style={{ padding: "12px", background: "#1C1C1E", borderRadius: "14px", display: "flex", alignItems: "center", justifyContent: "center", gap: "7px", border: "none" }}>
+              <Share2 size={16} color="rgba(255,255,255,0.6)" strokeWidth={2} />
+              <span style={{ fontSize: "13px", fontWeight: 600, color: "rgba(255,255,255,0.55)" }}>Share ID</span>
+            </button>
+          </div>
         </div>
       </div>
-      <div style={{ height: "16px" }} />
     </div>
   );
 }

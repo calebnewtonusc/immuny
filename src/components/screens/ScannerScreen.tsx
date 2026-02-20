@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronLeft, AlertCircle, CheckCircle2, ScanLine, Zap, RefreshCw, ChevronDown, Clock } from "lucide-react";
+import { ChevronLeft, ChevronRight, AlertCircle, CheckCircle2, ScanLine, Zap, RefreshCw, ChevronDown, Clock, ShieldAlert } from "lucide-react";
 import StatusBar from "@/components/ui/StatusBar";
 
 type Screen = "home" | "emergency" | "scanner" | "find-er" | "medical-id";
@@ -9,7 +9,7 @@ type ScanState = "idle" | "scanning" | "danger" | "safe";
 interface Props { navigate: (s: Screen) => void; goBack: () => void; }
 
 const pastScans = [
-  { name: "Kind Oats & Honey Bar",    safe: true,  time: "Yesterday" },
+  { name: "Kind Oats & Honey Bar",    safe: true,  time: "Yesterday"  },
   { name: "RxBar Blueberry",          safe: true,  time: "2 days ago" },
   { name: "Cheez-It Crackers",        safe: true,  time: "3 days ago" },
 ];
@@ -35,14 +35,14 @@ export default function ScannerScreen({ navigate, goBack }: Props) {
     setTimeout(() => setState(result), 2400);
   };
 
-  const borderColor = state === "scanning" ? "rgba(0,200,150,0.5)"
-    : state === "danger" ? "rgba(255,59,48,0.5)"
-    : state === "safe" ? "rgba(52,199,89,0.5)"
+  const borderColor = state === "scanning" ? "rgba(0,200,150,0.6)"
+    : state === "danger" ? "rgba(255,59,48,0.9)"
+    : state === "safe"   ? "rgba(52,199,89,0.9)"
     : "rgba(255,255,255,0.08)";
 
-  const viewfinderBg = state === "scanning" ? "rgba(0,200,150,0.03)"
-    : state === "danger" ? "rgba(255,59,48,0.04)"
-    : state === "safe" ? "rgba(52,199,89,0.04)"
+  const viewfinderBg = state === "scanning" ? "rgba(0,200,150,0.04)"
+    : state === "danger" ? "rgba(255,59,48,0.22)"
+    : state === "safe"   ? "rgba(52,199,89,0.18)"
     : "rgba(255,255,255,0.02)";
 
   return (
@@ -74,7 +74,7 @@ export default function ScannerScreen({ navigate, goBack }: Props) {
           background: viewfinderBg,
           border: `1.5px solid ${borderColor}`,
           position: "relative", overflow: "hidden",
-          transition: "border-color 0.3s ease, background 0.3s ease",
+          transition: "border-color 0.4s ease, background 0.4s ease",
           display: "flex", alignItems: "center", justifyContent: "center",
         }}>
           {/* Corner brackets */}
@@ -87,7 +87,7 @@ export default function ScannerScreen({ navigate, goBack }: Props) {
                 borderBottom: !t ? `2.5px solid ${borderColor}` : undefined,
                 borderLeft: l ? `2.5px solid ${borderColor}` : undefined,
                 borderRight: !l ? `2.5px solid ${borderColor}` : undefined,
-                transition: "border-color 0.3s ease",
+                transition: "border-color 0.4s ease",
               }} />
             );
           })}
@@ -108,8 +108,18 @@ export default function ScannerScreen({ navigate, goBack }: Props) {
               <p style={{ fontSize: "12px", color: "#00C896", fontWeight: 500 }}>Analyzing...</p>
             </div>
           )}
-          {state === "danger" && <AlertCircle size={32} color="#FF3B30" strokeWidth={2} />}
-          {state === "safe"   && <CheckCircle2 size={32} color="#34C759" strokeWidth={2} />}
+          {state === "danger" && (
+            <div style={{ textAlign: "center" }}>
+              <AlertCircle size={30} color="#FF3B30" strokeWidth={2.5} />
+              <p style={{ fontSize: "13px", fontWeight: 800, color: "#FF3B30", marginTop: "6px", letterSpacing: "0.06em" }}>UNSAFE</p>
+            </div>
+          )}
+          {state === "safe" && (
+            <div style={{ textAlign: "center" }}>
+              <CheckCircle2 size={30} color="#34C759" strokeWidth={2.5} />
+              <p style={{ fontSize: "13px", fontWeight: 800, color: "#34C759", marginTop: "6px", letterSpacing: "0.06em" }}>SAFE</p>
+            </div>
+          )}
         </div>
       </div>
 
@@ -152,7 +162,18 @@ export default function ScannerScreen({ navigate, goBack }: Props) {
         {/* DANGER */}
         {state === "danger" && (
           <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-            {/* Header result */}
+
+            {/* Emergency Protocol CTA */}
+            <button
+              onClick={() => navigate("emergency")}
+              style={{ width: "100%", padding: "13px 16px", background: "#FF3B30", borderRadius: "14px", display: "flex", alignItems: "center", gap: "10px", border: "none", boxShadow: "0 4px 18px rgba(255,59,48,0.38)", textAlign: "left" }}
+            >
+              <ShieldAlert size={18} color="white" strokeWidth={2.5} style={{ flexShrink: 0 }} />
+              <span style={{ flex: 1, fontSize: "14px", fontWeight: 700, color: "white" }}>Start Emergency Protocol</span>
+              <ChevronRight size={15} color="rgba(255,255,255,0.55)" strokeWidth={2.5} />
+            </button>
+
+            {/* Allergen details */}
             <div style={{ padding: "14px 16px", background: "#1C1C1E", borderRadius: "16px" }}>
               <div style={{ display: "flex", alignItems: "flex-start", gap: "10px", marginBottom: "12px" }}>
                 <AlertCircle size={18} color="#FF3B30" strokeWidth={2} style={{ flexShrink: 0, marginTop: "1px" }} />
@@ -205,7 +226,7 @@ export default function ScannerScreen({ navigate, goBack }: Props) {
 
             <button
               onClick={() => { setState("idle"); setShowIngredients(false); }}
-              style={{ width: "100%", height: "46px", background: "#1C1C1E", borderRadius: "14px", border: "none", display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", fontSize: "13px", fontWeight: 600, color: "rgba(255,255,255,0.5)" }}
+              style={{ width: "100%", height: "46px", background: "#1C1C1E", borderRadius: "14px", border: "none", display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", fontSize: "13px", fontWeight: 600, color: "rgba(255,255,255,0.5)", marginBottom: "12px" }}
             >
               <RefreshCw size={14} color="rgba(255,255,255,0.4)" strokeWidth={2} />
               Scan Again
@@ -221,7 +242,7 @@ export default function ScannerScreen({ navigate, goBack }: Props) {
                 <CheckCircle2 size={18} color="#34C759" strokeWidth={2} style={{ flexShrink: 0, marginTop: "1px" }} />
                 <div>
                   <p style={{ fontSize: "14px", fontWeight: 700, color: "#34C759" }}>No Allergens Detected</p>
-                  <p style={{ fontSize: "11px", color: "rgba(255,255,255,0.35)", marginTop: "2px" }}>Kind Oats & Honey Bar · 1.4oz</p>
+                  <p style={{ fontSize: "11px", color: "rgba(255,255,255,0.35)", marginTop: "2px" }}>Kind Oats &amp; Honey Bar · 1.4oz</p>
                 </div>
               </div>
               <div style={{ background: "rgba(52,199,89,0.08)", borderRadius: "10px", padding: "10px 12px", marginBottom: "10px" }}>
@@ -237,7 +258,7 @@ export default function ScannerScreen({ navigate, goBack }: Props) {
             </div>
             <button
               onClick={() => setState("idle")}
-              style={{ width: "100%", height: "46px", background: "#00C896", borderRadius: "14px", border: "none", display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", fontSize: "13px", fontWeight: 600, color: "white" }}
+              style={{ width: "100%", height: "46px", background: "#00C896", borderRadius: "14px", border: "none", display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", fontSize: "13px", fontWeight: 600, color: "white", marginBottom: "12px" }}
             >
               <ScanLine size={14} color="white" strokeWidth={2.5} />
               Scan Another

@@ -68,7 +68,7 @@ export default function AppShell() {
           {renderScreen()}
         </div>
       </div>
-      {showNav && <BottomNav active={navActive} navigate={(s) => navigate(s as Screen)} />}
+      {showNav && <BottomNav active={navActive} navigate={(s) => navigate(s as Screen)} dark={navState.screen === "scanner"} />}
     </div>
   );
 }

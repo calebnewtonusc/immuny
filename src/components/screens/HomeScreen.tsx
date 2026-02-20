@@ -1,6 +1,6 @@
 "use client";
 
-import { ShieldAlert, Camera, MapPin, CreditCard, Pill, ChevronRight, Clock, CheckCircle2, AlertCircle } from "lucide-react";
+import { ShieldAlert, Camera, MapPin, CreditCard, Pill, ChevronRight, Clock, CheckCircle2, AlertCircle, Shield } from "lucide-react";
 import StatusBar from "@/components/ui/StatusBar";
 
 type Screen = "home" | "emergency" | "scanner" | "find-er" | "medical-id";
@@ -31,17 +31,17 @@ export default function HomeScreen({ navigate }: Props) {
       <div className="inner-scroll" style={{ flex: 1 }}>
         <div style={{ padding: "10px 16px 0" }}>
 
-          {/* Greeting */}
+          {/* Header: identity + safety status */}
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "12px" }}>
             <div>
-              <p style={{ fontSize: "13px", color: "#8E8E93" }}>Good morning,</p>
               <p style={{ fontSize: "22px", fontWeight: 800, color: "#1C1C1E", letterSpacing: "-0.5px", lineHeight: 1.1 }}>Alex Rivera</p>
-            </div>
-            <div style={{ position: "relative" }}>
-              <div style={{ width: "38px", height: "38px", borderRadius: "50%", background: "#00C896", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <span style={{ fontSize: "15px", fontWeight: 800, color: "white" }}>A</span>
+              <div style={{ display: "flex", alignItems: "center", gap: "5px", marginTop: "3px" }}>
+                <div style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#34C759", flexShrink: 0 }} className="pulse-dot" />
+                <p style={{ fontSize: "12px", color: "#8E8E93" }}>Profile active · 4 allergens monitored</p>
               </div>
-              <div style={{ position: "absolute", bottom: 0, right: 0, width: "11px", height: "11px", borderRadius: "50%", background: "#34C759", border: "2px solid #F2F2F7" }} />
+            </div>
+            <div style={{ width: "38px", height: "38px", borderRadius: "50%", background: "#1C1C1E", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <span style={{ fontSize: "15px", fontWeight: 800, color: "white" }}>A</span>
             </div>
           </div>
 
@@ -61,16 +61,16 @@ export default function HomeScreen({ navigate }: Props) {
           {/* Emergency button */}
           <button
             onClick={() => navigate("emergency")}
-            style={{ width: "100%", marginBottom: "14px", padding: "0 18px", height: "88px", background: "#FF3B30", borderRadius: "20px", display: "flex", alignItems: "center", gap: "14px", border: "none", boxShadow: "0 4px 16px rgba(255,59,48,0.28)", textAlign: "left" }}
+            style={{ width: "100%", marginBottom: "14px", padding: "0 18px", height: "88px", background: "#FF3B30", borderRadius: "20px", display: "flex", alignItems: "center", gap: "14px", border: "none", boxShadow: "0 6px 20px rgba(255,59,48,0.32)", textAlign: "left" }}
           >
-            <div style={{ width: "44px", height: "44px", borderRadius: "50%", background: "rgba(255,255,255,0.2)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-              <ShieldAlert size={22} color="white" strokeWidth={2} />
+            <div style={{ width: "46px", height: "46px", borderRadius: "14px", background: "rgba(255,255,255,0.18)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+              <ShieldAlert size={23} color="white" strokeWidth={2} />
             </div>
             <div style={{ flex: 1, minWidth: 0 }}>
-              <p style={{ fontSize: "16px", fontWeight: 800, color: "white", letterSpacing: "-0.2px", whiteSpace: "nowrap" }}>Emergency Help</p>
-              <p style={{ fontSize: "12px", color: "rgba(255,255,255,0.75)", marginTop: "2px", whiteSpace: "nowrap" }}>Immediate assistance</p>
+              <p style={{ fontSize: "17px", fontWeight: 800, color: "white", letterSpacing: "-0.3px", whiteSpace: "nowrap" }}>Emergency Help</p>
+              <p style={{ fontSize: "12px", color: "rgba(255,255,255,0.7)", marginTop: "2px", whiteSpace: "nowrap" }}>Tap for immediate assistance</p>
             </div>
-            <ChevronRight size={18} color="rgba(255,255,255,0.5)" strokeWidth={2.5} />
+            <ChevronRight size={18} color="rgba(255,255,255,0.45)" strokeWidth={2.5} />
           </button>
 
           {/* Quick actions 2x2 grid */}
@@ -82,8 +82,8 @@ export default function HomeScreen({ navigate }: Props) {
                 onClick={() => navigate(screen)}
                 style={{ background: "white", borderRadius: "16px", padding: "14px", border: "none", display: "flex", flexDirection: "column", alignItems: "flex-start", gap: "10px", boxShadow: S, textAlign: "left" }}
               >
-                <div style={{ width: "38px", height: "38px", borderRadius: "11px", background: "rgba(0,0,0,0.04)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                  <Icon size={19} color="#3C3C43" strokeWidth={1.8} />
+                <div style={{ width: "36px", height: "36px", borderRadius: "10px", background: "rgba(0,0,0,0.04)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  <Icon size={18} color="#1C1C1E" strokeWidth={1.8} />
                 </div>
                 <div>
                   <p style={{ fontSize: "13px", fontWeight: 600, color: "#1C1C1E" }}>{label}</p>
@@ -100,7 +100,7 @@ export default function HomeScreen({ navigate }: Props) {
               <button
                 key={name}
                 onClick={() => navigate("scanner")}
-                style={{ width: "100%", display: "flex", alignItems: "center", gap: "12px", padding: "11px 16px", borderTop: i > 0 ? "1px solid rgba(60,60,67,0.1)" : "none", background: "transparent", border: "none", textAlign: "left" }}
+                style={{ width: "100%", display: "flex", alignItems: "center", gap: "12px", padding: "11px 16px", borderTop: i > 0 ? "1px solid rgba(60,60,67,0.08)" : "none", background: "transparent", border: "none", textAlign: "left" }}
               >
                 {danger
                   ? <AlertCircle size={16} color="#FF3B30" strokeWidth={2} style={{ flexShrink: 0 }} />
@@ -116,10 +116,13 @@ export default function HomeScreen({ navigate }: Props) {
           </div>
 
           {/* My Allergens */}
-          <div style={{ background: "white", borderRadius: "16px", padding: "14px 16px", boxShadow: S, marginBottom: "16px" }}>
+          <div style={{ background: "white", borderRadius: "16px", padding: "14px 16px", boxShadow: S, marginBottom: "24px" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" }}>
-              <p style={{ fontSize: "13px", fontWeight: 600, color: "#1C1C1E" }}>My Allergens</p>
-              <span style={{ fontSize: "11px", fontWeight: 600, color: "#00C896" }}>4 tracked</span>
+              <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                <Shield size={13} color="#3C3C43" strokeWidth={2} />
+                <p style={{ fontSize: "13px", fontWeight: 600, color: "#1C1C1E" }}>My Allergens</p>
+              </div>
+              <span style={{ fontSize: "11px", fontWeight: 500, color: "#8E8E93" }}>4 tracked</span>
             </div>
             <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
               {allergens.map(label => (
