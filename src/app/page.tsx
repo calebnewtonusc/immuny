@@ -22,6 +22,15 @@ export default function Home() {
     return () => window.removeEventListener("resize", calc);
   }, []);
 
+  useEffect(() => {
+    const handleWheel = (e: WheelEvent) => {
+      const el = document.querySelector(".inner-scroll") as HTMLElement | null;
+      if (el) el.scrollTop += e.deltaY;
+    };
+    window.addEventListener("wheel", handleWheel, { passive: true });
+    return () => window.removeEventListener("wheel", handleWheel);
+  }, []);
+
   return (
     <main
       className="w-screen h-screen flex flex-col items-center justify-center overflow-hidden"
@@ -44,37 +53,12 @@ export default function Home() {
         }}
       />
 
-      {/* Header text */}
-      <div
-        className="mb-5 text-center z-10"
-        style={{
-          opacity: mounted ? 1 : 0,
-          transition: "opacity 0.6s ease",
-        }}
-      >
-        <div className="flex items-center gap-2 justify-center mb-1.5">
-          <div
-            className="w-7 h-7 rounded-lg flex items-center justify-center"
-            style={{
-              background: "linear-gradient(135deg, #00C896, #00a87e)",
-              boxShadow: "0 0 20px rgba(0,200,150,0.4)",
-            }}
-          >
-            <span className="text-white font-black text-xs">I</span>
-          </div>
-          <span className="font-bold text-lg text-white tracking-tight">Immuny</span>
-        </div>
-        <p className="text-xs font-medium" style={{ color: "rgba(255,255,255,0.3)", letterSpacing: "0.06em" }}>
-          UX REDESIGN — INTERACTIVE PROTOTYPE
-        </p>
-      </div>
-
       {/* Phone */}
       <div
         className="z-10 phone-float"
         style={{
           transform: `scale(${scale})`,
-          transformOrigin: "center top",
+          transformOrigin: "center center",
           opacity: mounted ? 1 : 0,
           transition: "opacity 0.6s ease 0.1s",
         }}

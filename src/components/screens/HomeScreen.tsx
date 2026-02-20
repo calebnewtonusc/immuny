@@ -88,7 +88,7 @@ export default function HomeScreen({ navigate }: Props) {
                 onClick={() => navigate(screen)}
                 style={{ background: "white", borderRadius: "16px", padding: "14px", border: "none", display: "flex", flexDirection: "column", alignItems: "flex-start", gap: "10px", boxShadow: S, textAlign: "left" }}
               >
-                <div style={{ width: "38px", height: "38px", borderRadius: "11px", background: `${color}18`, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <div style={{ width: "38px", height: "38px", borderRadius: "11px", background: "rgba(0,0,0,0.04)", display: "flex", alignItems: "center", justifyContent: "center" }}>
                   <Icon size={19} color={color} strokeWidth={2} />
                 </div>
                 <div>
