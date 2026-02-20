@@ -50,7 +50,7 @@ export default function AIScreen({ goBack }: Props) {
       const data = await res.json();
       setMessages(prev => [
         ...prev,
-        { role: "assistant", content: data.text || "Sorry, I could not get a response right now." },
+        { role: "assistant", content: data.text || data.error || "Sorry, I could not get a response right now." },
       ]);
     } catch {
       setMessages(prev => [

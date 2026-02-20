@@ -2,7 +2,28 @@ import { NextResponse } from "next/server";
 
 const OLLAMA_API_KEY = process.env.OLLAMA_API_KEY;
 const OLLAMA_HOST = process.env.OLLAMA_BASE_URL ?? "https://api.ollama.com";
-const MODEL = process.env.OLLAMA_MODEL ?? "llama3.2";
+
+async function resolveModel(): Promise<string> {
+  if (process.env.OLLAMA_MODEL) return process.env.OLLAMA_MODEL;
+  try {
+    const res = await fetch(`${OLLAMA_HOST}/api/tags`, {
+      headers: { Authorization: `Bearer ${OLLAMA_API_KEY}` },
+      signal: AbortSignal.timeout(4_000),
+    });
+    if (!res.ok) return "llama3.2";
+    const data = await res.json() as { models?: { name: string }[] };
+    const models = (data.models ?? []).map((m) => m.name);
+    return (
+      models.find((m) => m.includes("llama3")) ??
+      models.find((m) => m.includes("deepseek")) ??
+      models.find((m) => m.includes("mistral")) ??
+      models[0] ??
+      "llama3.2"
+    );
+  } catch {
+    return "llama3.2";
+  }
+}
 
 const SYSTEM_PROMPT = `You are Immuny AI, an allergy emergency assistant embedded in the Immuny app. You help Alex Rivera manage their allergy condition safely.
 
@@ -29,6 +50,7 @@ export async function POST(request: Request) {
 
   try {
     const { messages } = await request.json();
+    const model = await resolveModel();
 
     const res = await fetch(`${OLLAMA_HOST}/api/chat`, {
       method: "POST",
@@ -37,7 +59,7 @@ export async function POST(request: Request) {
         Authorization: `Bearer ${OLLAMA_API_KEY}`,
       },
       body: JSON.stringify({
-        model: MODEL,
+        model,
         messages: [
           { role: "system", content: SYSTEM_PROMPT },
           ...messages.slice(-12),
