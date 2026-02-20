@@ -84,13 +84,24 @@ export default function Home() {
         </IPhoneMockup>
       </div>
 
-      {/* Footer hint */}
-      <p
-        className="absolute bottom-4 text-xs z-10"
-        style={{ color: "rgba(255,255,255,0.18)", letterSpacing: "0.04em" }}
-      >
-        Tap anywhere to interact
-      </p>
+      {/* Footer */}
+      <div className="absolute bottom-4 z-10 flex items-center gap-3">
+        <p className="text-xs" style={{ color: "rgba(255,255,255,0.18)", letterSpacing: "0.04em" }}>
+          Tap anywhere to interact
+        </p>
+        <span style={{ color: "rgba(255,255,255,0.12)", fontSize: "10px" }}>·</span>
+        <a
+          href="https://www.immuny.ai/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-xs font-medium"
+          style={{ color: "rgba(0,200,150,0.5)", letterSpacing: "0.03em", textDecoration: "none" }}
+          onMouseEnter={e => (e.currentTarget.style.color = "rgba(0,200,150,0.85)")}
+          onMouseLeave={e => (e.currentTarget.style.color = "rgba(0,200,150,0.5)")}
+        >
+          immuny.ai ↗
+        </a>
+      </div>
     </main>
   );
 }
