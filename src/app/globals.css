@@ -1,0 +1,227 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400&display=swap');
+
+:root {
+  --font-inter: 'Inter', system-ui, sans-serif;
+  --font-dm-sans: 'DM Sans', system-ui, sans-serif;
+  --color-mint: #00C896;
+  --color-mint-light: #9af5de;
+  --color-danger: #FF3B30;
+  --color-warning: #FF9500;
+  --color-navy: #0d1117;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-inter);
+  background: #fafafa;
+  color: #0d1117;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Selection */
+::selection {
+  background: #00C89633;
+  color: #00a87e;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #00C89644;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #00C896;
+}
+
+/* ——— iPhone Mockup ——— */
+.iphone-outer {
+  position: relative;
+  width: 280px;
+  height: 580px;
+  background: linear-gradient(145deg, #2c2c2e, #1c1c1e, #0d0d0d);
+  border-radius: 50px;
+  box-shadow:
+    0 0 0 1.5px #3a3a3c,
+    0 0 0 3px #1c1c1e,
+    0 40px 80px rgba(0,0,0,0.4),
+    inset 0 0 0 1px rgba(255,255,255,0.05);
+  padding: 12px;
+  flex-shrink: 0;
+}
+
+.iphone-inner {
+  width: 100%;
+  height: 100%;
+  background: #000;
+  border-radius: 40px;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Dynamic Island */
+.dynamic-island {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 110px;
+  height: 32px;
+  background: #000;
+  border-radius: 20px;
+  z-index: 20;
+  box-shadow: 0 0 0 1.5px #1c1c1e;
+}
+
+/* Side buttons */
+.iphone-outer::before {
+  content: '';
+  position: absolute;
+  right: -4px;
+  top: 110px;
+  width: 4px;
+  height: 60px;
+  background: linear-gradient(to right, #2c2c2e, #3a3a3c);
+  border-radius: 0 4px 4px 0;
+}
+
+.iphone-outer::after {
+  content: '';
+  position: absolute;
+  left: -4px;
+  top: 80px;
+  width: 4px;
+  height: 30px;
+  background: linear-gradient(to left, #2c2c2e, #3a3a3c);
+  border-radius: 4px 0 0 4px;
+  box-shadow: 0 46px 0 #3a3a3c, 0 90px 0 #3a3a3c;
+}
+
+/* Screen content area */
+.screen-content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  font-family: var(--font-inter);
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, #00C896 0%, #00e5ab 50%, #00a87e 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Section spacing */
+.section-pad {
+  padding: 96px 24px;
+}
+
+@media (min-width: 640px) {
+  .section-pad {
+    padding: 120px 48px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .section-pad {
+    padding: 140px 80px;
+  }
+}
+
+/* Glass card */
+.glass-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+}
+
+/* Ambient glow */
+.mint-glow {
+  box-shadow: 0 0 60px rgba(0, 200, 150, 0.15), 0 0 120px rgba(0, 200, 150, 0.08);
+}
+
+/* Noise texture overlay for depth */
+.noise-bg {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 200px 200px;
+}
+
+/* Animated underline */
+.animated-underline {
+  position: relative;
+}
+
+.animated-underline::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--color-mint);
+  transition: width 0.3s ease;
+}
+
+.animated-underline:hover::after {
+  width: 100%;
+}
+
+/* Tag pill */
+.tag-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 99px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  background: rgba(0, 200, 150, 0.1);
+  color: #00a87e;
+  border: 1px solid rgba(0, 200, 150, 0.2);
+}
+
+/* Fade in on scroll utility */
+.fade-in-scroll {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.fade-in-scroll.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Process step connector */
+.step-connector {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, rgba(0,200,150,0.4), rgba(0,200,150,0.1));
+}
