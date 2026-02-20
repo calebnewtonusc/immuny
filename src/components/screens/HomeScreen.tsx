@@ -10,18 +10,13 @@ interface Props { navigate: (s: Screen) => void; }
 const S = "0 1px 3px rgba(0,0,0,0.05), 0 4px 12px rgba(0,0,0,0.04)";
 
 const quickActions = [
-  { Icon: Camera,     label: "Scan Food",  sub: "Check ingredients",  color: "#007AFF", screen: "scanner"    as Screen },
-  { Icon: MapPin,     label: "Find ER",    sub: "Nearest emergency",  color: "#FF3B30", screen: "find-er"    as Screen },
-  { Icon: Pill,       label: "My Meds",    sub: "EpiPen · Benadryl",  color: "#FF9500", screen: "medical-id" as Screen },
-  { Icon: CreditCard, label: "Medical ID", sub: "Share instantly",     color: "#00C896", screen: "medical-id" as Screen },
+  { Icon: Camera,     label: "Scan Food",  sub: "Check ingredients", screen: "scanner"    as Screen },
+  { Icon: MapPin,     label: "Find ER",    sub: "Nearest emergency", screen: "find-er"    as Screen },
+  { Icon: Pill,       label: "My Meds",    sub: "EpiPen · Benadryl", screen: "medical-id" as Screen },
+  { Icon: CreditCard, label: "Medical ID", sub: "Share instantly",   screen: "medical-id" as Screen },
 ];
 
-const allergens = [
-  { label: "Peanuts",   color: "#FF3B30" },
-  { label: "Tree Nuts", color: "#FF3B30" },
-  { label: "Shellfish", color: "#FF9500" },
-  { label: "Dairy",     color: "#8E8E93" },
-];
+const allergens = ["Peanuts", "Tree Nuts", "Shellfish", "Dairy"];
 
 const recentScans = [
   { name: "Trader Joe's Granola Bar", danger: true,  time: "2h ago"     },
@@ -82,14 +77,14 @@ export default function HomeScreen({ navigate }: Props) {
           {/* Quick actions 2x2 grid */}
           <p style={{ fontSize: "11px", fontWeight: 600, color: "#8E8E93", textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: "8px" }}>Quick Actions</p>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px", marginBottom: "14px" }}>
-            {quickActions.map(({ Icon, label, sub, color, screen }) => (
+            {quickActions.map(({ Icon, label, sub, screen }) => (
               <button
                 key={label}
                 onClick={() => navigate(screen)}
                 style={{ background: "white", borderRadius: "16px", padding: "14px", border: "none", display: "flex", flexDirection: "column", alignItems: "flex-start", gap: "10px", boxShadow: S, textAlign: "left" }}
               >
                 <div style={{ width: "38px", height: "38px", borderRadius: "11px", background: "rgba(0,0,0,0.04)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                  <Icon size={19} color={color} strokeWidth={2} />
+                  <Icon size={19} color="#3C3C43" strokeWidth={1.8} />
                 </div>
                 <div>
                   <p style={{ fontSize: "13px", fontWeight: 600, color: "#1C1C1E" }}>{label}</p>
@@ -128,8 +123,8 @@ export default function HomeScreen({ navigate }: Props) {
               <span style={{ fontSize: "11px", fontWeight: 600, color: "#00C896" }}>4 tracked</span>
             </div>
             <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
-              {allergens.map(({ label, color }) => (
-                <span key={label} style={{ padding: "5px 11px", background: `${color}12`, borderRadius: "8px", fontSize: "12px", fontWeight: 600, color }}>{label}</span>
+              {allergens.map(label => (
+                <span key={label} style={{ padding: "5px 11px", background: "rgba(0,0,0,0.05)", borderRadius: "8px", fontSize: "12px", fontWeight: 500, color: "#3C3C43" }}>{label}</span>
               ))}
             </div>
           </div>

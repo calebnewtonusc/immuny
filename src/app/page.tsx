@@ -22,32 +22,26 @@ export default function Home() {
     return () => window.removeEventListener("resize", calc);
   }, []);
 
-  useEffect(() => {
-    const handleWheel = (e: WheelEvent) => {
-      const el = document.querySelector(".inner-scroll") as HTMLElement | null;
-      if (el) el.scrollTop += e.deltaY;
-    };
-    window.addEventListener("wheel", handleWheel, { passive: true });
-    return () => window.removeEventListener("wheel", handleWheel);
-  }, []);
+  const handleWheel = (e: React.WheelEvent) => {
+    const el = document.querySelector(".inner-scroll") as HTMLElement | null;
+    if (el) el.scrollTop += e.deltaY;
+  };
 
   return (
     <main
-      className="w-screen h-screen flex flex-col items-center justify-center overflow-hidden"
+      className="w-screen h-screen flex items-center justify-center overflow-hidden"
       style={{
         background: "radial-gradient(ellipse at 50% -10%, #0f2235 0%, #060b14 55%, #030609 100%)",
       }}
+      onWheel={handleWheel}
     >
       {/* Ambient glow */}
       <div
         className="absolute pointer-events-none"
         style={{
-          width: "600px",
-          height: "600px",
-          borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(0,200,150,0.12) 0%, transparent 65%)",
-          top: "50%",
-          left: "50%",
+          width: "600px", height: "600px", borderRadius: "50%",
+          background: "radial-gradient(circle, rgba(0,200,150,0.1) 0%, transparent 65%)",
+          top: "50%", left: "50%",
           transform: "translate(-50%, -50%)",
           filter: "blur(20px)",
         }}
@@ -68,24 +62,25 @@ export default function Home() {
         </IPhoneMockup>
       </div>
 
-      {/* Footer */}
-      <div className="absolute bottom-4 z-10 flex items-center gap-3">
-        <p className="text-xs" style={{ color: "rgba(255,255,255,0.18)", letterSpacing: "0.04em" }}>
-          Tap anywhere to interact
-        </p>
-        <span style={{ color: "rgba(255,255,255,0.12)", fontSize: "10px" }}>·</span>
-        <a
-          href="https://www.immuny.ai/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-xs font-medium"
-          style={{ color: "rgba(0,200,150,0.5)", letterSpacing: "0.03em", textDecoration: "none" }}
-          onMouseEnter={e => (e.currentTarget.style.color = "rgba(0,200,150,0.85)")}
-          onMouseLeave={e => (e.currentTarget.style.color = "rgba(0,200,150,0.5)")}
-        >
-          immuny.ai ↗
-        </a>
-      </div>
+      {/* immuny.ai — right of phone */}
+      <a
+        href="https://www.immuny.ai/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="absolute z-10"
+        style={{
+          right: "32px", top: "50%", transform: "translateY(-50%)",
+          writingMode: "vertical-rl", textOrientation: "mixed",
+          fontSize: "11px", fontWeight: 500,
+          color: "rgba(255,255,255,0.2)",
+          letterSpacing: "0.1em", textDecoration: "none",
+          transition: "color 0.2s ease",
+        }}
+        onMouseEnter={e => (e.currentTarget.style.color = "rgba(0,200,150,0.7)")}
+        onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.2)")}
+      >
+        immuny.ai ↗
+      </a>
     </main>
   );
 }

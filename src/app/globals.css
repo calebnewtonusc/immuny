@@ -52,6 +52,60 @@ body {
   background: #00C896;
 }
 
+/* ——— Phone inner scroll area ——— */
+.inner-scroll {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.inner-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+/* ——— Screen transitions ——— */
+.screen-forward {
+  animation: slideFromRight 0.28s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+.screen-back {
+  animation: slideFromLeft 0.28s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+@keyframes slideFromRight {
+  from { transform: translateX(100%); opacity: 0.6; }
+  to   { transform: translateX(0);    opacity: 1;   }
+}
+@keyframes slideFromLeft {
+  from { transform: translateX(-30%); opacity: 0.6; }
+  to   { transform: translateX(0);    opacity: 1;   }
+}
+
+/* ——— Pulse dot ——— */
+.pulse-dot {
+  animation: pulseDot 2s ease-in-out infinite;
+}
+@keyframes pulseDot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.5; transform: scale(0.8); }
+}
+
+/* ——— Scanner scan line ——— */
+.scan-line {
+  animation: scanLine 1.6s ease-in-out infinite;
+}
+@keyframes scanLine {
+  0%   { top: 14px; }
+  50%  { top: calc(100% - 16px); }
+  100% { top: 14px; }
+}
+
+/* ——— Phone float ——— */
+.phone-float {
+  animation: float 6s ease-in-out infinite;
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0px) scale(var(--phone-scale, 1)); }
+  50%       { transform: translateY(-8px) scale(var(--phone-scale, 1)); }
+}
+
 /* ——— iPhone Mockup ——— */
 .iphone-outer {
   position: relative;
