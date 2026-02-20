@@ -2,7 +2,6 @@
 
 import { ShieldAlert, Camera, MapPin, CreditCard, Pill, ChevronRight, Clock, CheckCircle2, AlertCircle } from "lucide-react";
 import StatusBar from "@/components/ui/StatusBar";
-import BottomNav from "@/components/ui/BottomNav";
 
 type Screen = "home" | "emergency" | "scanner" | "find-er" | "medical-id";
 interface Props { navigate: (s: Screen) => void; }
@@ -132,7 +131,6 @@ export default function HomeScreen({ navigate }: Props) {
         </div>
       </div>
 
-      <BottomNav active="home" navigate={(s) => navigate(s as Screen)} />
     </div>
   );
 }

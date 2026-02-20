@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { ChevronLeft, Share2, Phone, Heart, AlertCircle, Pill, CheckCircle2, Lock, User, Shield } from "lucide-react";
 import StatusBar from "@/components/ui/StatusBar";
-import BottomNav from "@/components/ui/BottomNav";
 
 type Screen = "home" | "emergency" | "scanner" | "find-er" | "medical-id";
 interface Props { navigate: (s: Screen) => void; goBack: () => void; }
@@ -188,7 +187,6 @@ export default function MedicalIDScreen({ navigate, goBack }: Props) {
         </div>
       </div>
 
-      <BottomNav active="medical-id" navigate={(s) => navigate(s as Screen)} />
     </div>
   );
 }

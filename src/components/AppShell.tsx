@@ -6,8 +6,10 @@ import EmergencyScreen from "@/components/screens/EmergencyScreen";
 import ScannerScreen from "@/components/screens/ScannerScreen";
 import FindERScreen from "@/components/screens/FindERScreen";
 import MedicalIDScreen from "@/components/screens/MedicalIDScreen";
+import BottomNav from "@/components/ui/BottomNav";
 
 type Screen = "home" | "emergency" | "scanner" | "find-er" | "medical-id";
+type NavTab = "home" | "scanner" | "find-er" | "medical-id";
 
 interface NavState {
   screen: Screen;
@@ -51,15 +53,22 @@ export default function AppShell() {
     }
   };
 
+  const tabScreens: Screen[] = ["home", "scanner", "find-er", "medical-id"];
+  const showNav = tabScreens.includes(navState.screen);
+  const navActive = navState.screen as NavTab;
+
   return (
-    <div style={{ width: "100%", height: "100%", overflow: "hidden", position: "relative", background: "#F5F5F7" }}>
-      <div
-        key={navState.key}
-        className={animClass}
-        style={{ width: "100%", height: "100%", position: "absolute", inset: 0 }}
-      >
-        {renderScreen()}
+    <div style={{ width: "100%", height: "100%", overflow: "hidden", display: "flex", flexDirection: "column", background: "#F2F2F7" }}>
+      <div style={{ flex: 1, position: "relative", overflow: "hidden" }}>
+        <div
+          key={navState.key}
+          className={animClass}
+          style={{ width: "100%", height: "100%", position: "absolute", inset: 0 }}
+        >
+          {renderScreen()}
+        </div>
       </div>
+      {showNav && <BottomNav active={navActive} navigate={(s) => navigate(s as Screen)} />}
     </div>
   );
 }

@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { ChevronLeft, AlertCircle, CheckCircle2, ScanLine, Zap, RefreshCw, ChevronDown, Clock } from "lucide-react";
 import StatusBar from "@/components/ui/StatusBar";
-import BottomNav from "@/components/ui/BottomNav";
 
 type Screen = "home" | "emergency" | "scanner" | "find-er" | "medical-id";
 type ScanState = "idle" | "scanning" | "danger" | "safe";
@@ -247,7 +246,6 @@ export default function ScannerScreen({ navigate, goBack }: Props) {
         )}
       </div>
 
-      <BottomNav active="scanner" navigate={(s) => navigate(s as Screen)} dark />
       <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
     </div>
   );

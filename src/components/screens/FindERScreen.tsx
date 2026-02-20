@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { ChevronLeft, MapPin, Navigation, Clock, Phone, Star } from "lucide-react";
 import StatusBar from "@/components/ui/StatusBar";
-import BottomNav from "@/components/ui/BottomNav";
 
 type Screen = "home" | "emergency" | "scanner" | "find-er" | "medical-id";
 interface Props { navigate: (s: Screen) => void; goBack: () => void; }
@@ -178,7 +177,6 @@ export default function FindERScreen({ navigate, goBack }: Props) {
         </div>
       </div>
 
-      <BottomNav active="find-er" navigate={(s) => navigate(s as Screen)} />
     </div>
   );
 }
