@@ -25,9 +25,9 @@ export default function BottomNav({ active, navigate, dark = false }: BottomNavP
     <div
       className="flex items-center justify-around flex-shrink-0"
       style={{
-        height: "70px",
-        paddingBottom: "12px",
-        paddingTop: "8px",
+        height: "54px",
+        paddingBottom: "6px",
+        paddingTop: "6px",
         paddingLeft: "8px",
         paddingRight: "8px",
         borderTop: `1px solid ${borderColor}`,

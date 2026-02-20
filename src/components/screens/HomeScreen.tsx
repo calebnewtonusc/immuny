@@ -1,187 +1,146 @@
 "use client";
 
-import { AlertTriangle, Camera, MapPin, CreditCard, Pill, ChevronRight, Bell, ShieldAlert } from "lucide-react";
+import { ShieldAlert, Camera, MapPin, CreditCard, Pill, ChevronRight, AlertTriangle } from "lucide-react";
 import StatusBar from "@/components/ui/StatusBar";
 import BottomNav from "@/components/ui/BottomNav";
 
 type Screen = "home" | "emergency" | "scanner" | "find-er" | "medical-id";
+interface Props { navigate: (s: Screen) => void; }
 
-interface Props {
-  navigate: (screen: Screen) => void;
-}
+const CARD_SHADOW = "0 1px 3px rgba(0,0,0,0.05), 0 4px 12px rgba(0,0,0,0.04)";
+
+const quickActions = [
+  { Icon: Camera,     label: "Scan Food",  color: "#007AFF", screen: "scanner"    as Screen },
+  { Icon: MapPin,     label: "Find ER",    color: "#FF3B30", screen: "find-er"    as Screen },
+  { Icon: Pill,       label: "My Meds",    color: "#FF9500", screen: "medical-id" as Screen },
+  { Icon: CreditCard, label: "Medical ID", color: "#00C896", screen: "medical-id" as Screen },
+];
+
+const allergens = [
+  { label: "Peanuts",    color: "#FF3B30" },
+  { label: "Tree Nuts",  color: "#FF3B30" },
+  { label: "Shellfish",  color: "#FF9500" },
+  { label: "Dairy",      color: "#8E8E93" },
+];
 
 export default function HomeScreen({ navigate }: Props) {
   return (
-    <div
-      style={{
-        width: "100%",
-        height: "100%",
-        display: "flex",
-        flexDirection: "column",
-        background: "#F5F5F7",
-        fontFamily: "var(--font)",
-      }}
-    >
+    <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", background: "#F2F2F7", fontFamily: "var(--font)" }}>
       <StatusBar />
 
-      {/* Scrollable content */}
       <div className="inner-scroll" style={{ flex: 1 }}>
-        <div style={{ padding: "8px 18px 16px" }}>
+        <div style={{ padding: "12px 16px 0" }}>
 
-          {/* Header */}
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "14px" }}>
+          {/* Greeting */}
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "16px" }}>
             <div>
-              <p style={{ fontSize: "12px", color: "#9CA3AF", fontWeight: 500 }}>Good morning,</p>
-              <p style={{ fontSize: "19px", fontWeight: 800, color: "#0d1117", letterSpacing: "-0.4px", lineHeight: 1.1 }}>Alex Rivera</p>
+              <p style={{ fontSize: "13px", color: "#8E8E93", fontWeight: 400 }}>Good morning,</p>
+              <p style={{ fontSize: "22px", fontWeight: 800, color: "#1C1C1E", letterSpacing: "-0.5px", lineHeight: 1.1 }}>Alex Rivera</p>
             </div>
-            <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
-              <button
-                style={{
-                  width: "36px", height: "36px", borderRadius: "50%",
-                  background: "white", border: "1px solid rgba(0,0,0,0.07)",
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                  boxShadow: "0 1px 4px rgba(0,0,0,0.06)",
-                }}
-              >
-                <Bell size={16} color="#374151" strokeWidth={1.8} />
-              </button>
-              <div style={{
-                width: "36px", height: "36px", borderRadius: "50%",
-                background: "linear-gradient(135deg, #00C896, #00a87e)",
-                display: "flex", alignItems: "center", justifyContent: "center",
-                boxShadow: "0 2px 8px rgba(0,200,150,0.3)",
-              }}>
-                <span style={{ fontSize: "14px", fontWeight: 800, color: "white" }}>A</span>
-              </div>
+            <div style={{
+              width: "38px", height: "38px", borderRadius: "50%",
+              background: "#00C896",
+              display: "flex", alignItems: "center", justifyContent: "center",
+            }}>
+              <span style={{ fontSize: "15px", fontWeight: 800, color: "white" }}>A</span>
             </div>
           </div>
 
-          {/* Alert banner */}
+          {/* Alert */}
           <button
             onClick={() => navigate("scanner")}
             style={{
-              width: "100%", marginBottom: "14px", padding: "10px 14px",
-              background: "rgba(255,59,48,0.07)",
-              borderRadius: "14px", border: "1px solid rgba(255,59,48,0.18)",
-              display: "flex", alignItems: "center", gap: "10px", textAlign: "left",
+              width: "100%", marginBottom: "12px",
+              padding: "11px 14px",
+              background: "white",
+              borderRadius: "14px",
+              display: "flex", alignItems: "center", gap: "10px",
+              boxShadow: CARD_SHADOW,
+              border: "none", textAlign: "left",
             }}
           >
-            <div style={{
-              width: "8px", height: "8px", borderRadius: "50%",
-              background: "#FF3B30", flexShrink: 0,
-            }} className="pulse-dot" />
+            <div style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#FF3B30", flexShrink: 0 }} className="pulse-dot" />
             <div style={{ flex: 1 }}>
-              <p style={{ fontSize: "11px", fontWeight: 700, color: "#FF3B30", letterSpacing: "0.03em" }}>
-                ALLERGEN ALERT
-              </p>
-              <p style={{ fontSize: "10px", color: "#9B7A7A", marginTop: "1px" }}>
-                Possible peanut traces detected nearby
-              </p>
+              <p style={{ fontSize: "13px", fontWeight: 600, color: "#FF3B30" }}>Allergen Alert Nearby</p>
+              <p style={{ fontSize: "12px", color: "#8E8E93", marginTop: "1px" }}>Possible peanut traces detected</p>
             </div>
-            <ChevronRight size={14} color="#FF3B30" strokeWidth={2.5} />
+            <ChevronRight size={16} color="#C7C7CC" strokeWidth={2} />
           </button>
 
           {/* Emergency button */}
           <button
             onClick={() => navigate("emergency")}
             style={{
-              width: "100%", marginBottom: "16px",
-              padding: "18px 16px",
-              background: "linear-gradient(135deg, #FF3B30 0%, #FF6040 100%)",
+              width: "100%", marginBottom: "12px",
+              padding: "0 20px",
+              height: "84px",
+              background: "#FF3B30",
               borderRadius: "20px",
-              display: "flex", alignItems: "center", justifyContent: "center",
-              gap: "10px",
-              boxShadow: "0 8px 28px rgba(255,59,48,0.38), 0 3px 10px rgba(255,59,48,0.25)",
+              display: "flex", alignItems: "center", gap: "16px",
               border: "none",
-              position: "relative",
-              overflow: "hidden",
+              boxShadow: "0 4px 16px rgba(255,59,48,0.28)",
+              textAlign: "left",
             }}
           >
-            {/* Pulse ring behind */}
             <div style={{
-              position: "absolute",
-              width: "60px", height: "60px", borderRadius: "50%",
-              background: "rgba(255,255,255,0.1)",
-              left: "50%", top: "50%",
-              transform: "translate(-50%, -50%)",
-            }} className="emergency-ring" />
-            <ShieldAlert size={24} color="white" strokeWidth={2} />
-            <span style={{ fontSize: "16px", fontWeight: 800, color: "white", letterSpacing: "0.02em" }}>
-              EMERGENCY HELP
-            </span>
+              width: "48px", height: "48px", borderRadius: "50%",
+              background: "rgba(255,255,255,0.2)",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              flexShrink: 0,
+            }}>
+              <ShieldAlert size={24} color="white" strokeWidth={2} />
+            </div>
+            <div style={{ flex: 1 }}>
+              <p style={{ fontSize: "17px", fontWeight: 800, color: "white", letterSpacing: "-0.2px", lineHeight: 1.1 }}>EMERGENCY HELP</p>
+              <p style={{ fontSize: "12px", color: "rgba(255,255,255,0.7)", marginTop: "3px", fontWeight: 400 }}>Tap for immediate assistance</p>
+            </div>
+            <ChevronRight size={18} color="rgba(255,255,255,0.5)" strokeWidth={2.5} />
           </button>
 
-          {/* Quick actions */}
-          <p style={{ fontSize: "11px", fontWeight: 700, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "10px" }}>
+          {/* Quick actions — iOS grouped list */}
+          <p style={{ fontSize: "11px", fontWeight: 600, color: "#8E8E93", textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: "8px" }}>
             Quick Actions
           </p>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px", marginBottom: "16px" }}>
-            {[
-              { icon: Camera,     label: "Scan Food",   sub: "Check ingredients",  color: "#0071E3", bg: "#EFF6FF", screen: "scanner"    as Screen },
-              { icon: MapPin,     label: "Find ER",     sub: "Nearest emergency",   color: "#FF9500", bg: "#FFF7ED", screen: "find-er"    as Screen },
-              { icon: Pill,       label: "My Meds",     sub: "EpiPen & more",       color: "#8B5CF6", bg: "#F5F3FF", screen: "medical-id" as Screen },
-              { icon: CreditCard, label: "Medical ID",  sub: "Share with responders",color: "#00C896", bg: "#F0FDF9", screen: "medical-id" as Screen },
-            ].map(({ icon: Icon, label, sub, color, bg, screen }) => (
+          <div style={{ background: "white", borderRadius: "16px", overflow: "hidden", boxShadow: CARD_SHADOW, marginBottom: "12px" }}>
+            {quickActions.map(({ Icon, label, color, screen }, i) => (
               <button
                 key={label}
                 onClick={() => navigate(screen)}
                 style={{
-                  padding: "13px 12px",
-                  background: "white",
-                  borderRadius: "16px",
-                  border: "1px solid rgba(0,0,0,0.05)",
-                  textAlign: "left",
-                  boxShadow: "0 1px 4px rgba(0,0,0,0.05)",
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "6px",
+                  width: "100%", padding: "12px 16px",
+                  display: "flex", alignItems: "center", gap: "14px",
+                  background: "transparent", border: "none", textAlign: "left",
+                  borderTop: i > 0 ? "1px solid rgba(60,60,67,0.1)" : "none",
                 }}
               >
                 <div style={{
-                  width: "34px", height: "34px", borderRadius: "10px",
-                  background: bg,
+                  width: "36px", height: "36px", borderRadius: "10px",
+                  background: `${color}15`,
                   display: "flex", alignItems: "center", justifyContent: "center",
+                  flexShrink: 0,
                 }}>
-                  <Icon size={17} color={color} strokeWidth={2} />
+                  <Icon size={18} color={color} strokeWidth={2} />
                 </div>
-                <div>
-                  <p style={{ fontSize: "12px", fontWeight: 700, color: "#0d1117", lineHeight: 1.2 }}>{label}</p>
-                  <p style={{ fontSize: "10px", color: "#9CA3AF", marginTop: "1px" }}>{sub}</p>
-                </div>
+                <span style={{ flex: 1, fontSize: "15px", fontWeight: 500, color: "#1C1C1E" }}>{label}</span>
+                <ChevronRight size={16} color="#C7C7CC" strokeWidth={2} />
               </button>
             ))}
           </div>
 
-          {/* Allergen profile */}
-          <div style={{
-            background: "white",
-            borderRadius: "16px",
-            border: "1px solid rgba(0,0,0,0.05)",
-            overflow: "hidden",
-            boxShadow: "0 1px 4px rgba(0,0,0,0.05)",
-          }}>
-            <div style={{ padding: "12px 14px", borderBottom: "1px solid rgba(0,0,0,0.04)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-              <p style={{ fontSize: "12px", fontWeight: 700, color: "#0d1117" }}>My Allergens</p>
-              <button style={{ fontSize: "11px", fontWeight: 600, color: "#00C896" }}>Edit</button>
+          {/* Allergens */}
+          <div style={{ background: "white", borderRadius: "16px", padding: "14px 16px", boxShadow: CARD_SHADOW, marginBottom: "16px" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" }}>
+              <p style={{ fontSize: "13px", fontWeight: 600, color: "#1C1C1E" }}>My Allergens</p>
+              <button style={{ fontSize: "13px", color: "#007AFF", fontWeight: 400 }}>Edit</button>
             </div>
-            <div style={{ padding: "10px 14px", display: "flex", flexWrap: "wrap", gap: "6px" }}>
-              {[
-                { label: "Peanuts", severity: "severe" },
-                { label: "Tree Nuts", severity: "severe" },
-                { label: "Shellfish", severity: "moderate" },
-                { label: "Dairy", severity: "mild" },
-              ].map(({ label, severity }) => (
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
+              {allergens.map(({ label, color }) => (
                 <span key={label} style={{
-                  padding: "4px 10px",
-                  borderRadius: "99px",
-                  fontSize: "10px",
-                  fontWeight: 600,
-                  background: severity === "severe" ? "rgba(255,59,48,0.1)" : severity === "moderate" ? "rgba(255,149,0,0.1)" : "rgba(107,114,128,0.1)",
-                  color: severity === "severe" ? "#FF3B30" : severity === "moderate" ? "#FF9500" : "#6B7280",
-                  border: `1px solid ${severity === "severe" ? "rgba(255,59,48,0.2)" : severity === "moderate" ? "rgba(255,149,0,0.2)" : "rgba(107,114,128,0.15)"}`,
-                }}>
-                  {label}
-                </span>
+                  padding: "5px 11px",
+                  background: `${color}12`,
+                  borderRadius: "8px",
+                  fontSize: "12px", fontWeight: 600, color,
+                }}>{label}</span>
               ))}
             </div>
           </div>
