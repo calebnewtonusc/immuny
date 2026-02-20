@@ -93,7 +93,7 @@ export default function ScannerScreen({ navigate, goBack }: Props) {
           })}
 
           {state === "scanning" && (
-            <div className="scan-line" style={{ position: "absolute", left: "14px", right: "14px", height: "2px", background: "linear-gradient(to right, transparent, #00C896, transparent)", boxShadow: "0 0 10px rgba(0,200,150,0.7)" }} />
+            <div className="scan-line" style={{ position: "absolute", left: "14px", right: "14px", height: "1.5px", background: "linear-gradient(to right, transparent, rgba(255,255,255,0.5), transparent)" }} />
           )}
 
           {state === "idle" && (
@@ -104,8 +104,8 @@ export default function ScannerScreen({ navigate, goBack }: Props) {
           )}
           {state === "scanning" && (
             <div style={{ textAlign: "center" }}>
-              <div style={{ width: "32px", height: "32px", borderRadius: "50%", border: "2.5px solid rgba(0,200,150,0.15)", borderTop: "2.5px solid #00C896", margin: "0 auto 8px", animation: "spin 0.8s linear infinite" }} />
-              <p style={{ fontSize: "12px", color: "#00C896", fontWeight: 500 }}>Analyzing...</p>
+              <div style={{ width: "32px", height: "32px", borderRadius: "50%", border: "2.5px solid rgba(255,255,255,0.08)", borderTop: "2.5px solid rgba(255,255,255,0.55)", margin: "0 auto 8px", animation: "spin 0.8s linear infinite" }} />
+              <p style={{ fontSize: "12px", color: "rgba(255,255,255,0.45)", fontWeight: 500 }}>Analyzing...</p>
             </div>
           )}
           {state === "danger" && (
@@ -131,7 +131,7 @@ export default function ScannerScreen({ navigate, goBack }: Props) {
           <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
             <button
               onClick={() => scan("danger")}
-              style={{ width: "100%", height: "48px", background: "#00C896", borderRadius: "14px", border: "none", fontSize: "15px", fontWeight: 600, color: "white", display: "flex", alignItems: "center", justifyContent: "center", gap: "8px" }}
+              style={{ width: "100%", height: "48px", background: "#1C1C1E", borderRadius: "14px", border: "none", fontSize: "15px", fontWeight: 600, color: "white", display: "flex", alignItems: "center", justifyContent: "center", gap: "8px" }}
             >
               <ScanLine size={18} color="white" strokeWidth={2.5} />
               Scan Now
@@ -258,7 +258,7 @@ export default function ScannerScreen({ navigate, goBack }: Props) {
             </div>
             <button
               onClick={() => setState("idle")}
-              style={{ width: "100%", height: "46px", background: "#00C896", borderRadius: "14px", border: "none", display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", fontSize: "13px", fontWeight: 600, color: "white", marginBottom: "12px" }}
+              style={{ width: "100%", height: "46px", background: "#1C1C1E", borderRadius: "14px", border: "none", display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", fontSize: "13px", fontWeight: 600, color: "rgba(255,255,255,0.8)", marginBottom: "12px" }}
             >
               <ScanLine size={14} color="white" strokeWidth={2.5} />
               Scan Another

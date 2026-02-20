@@ -141,8 +141,8 @@ export default function MedicalIDScreen({ navigate, goBack }: Props) {
         {/* Primary doctor */}
         <div style={{ background: "white", borderRadius: "16px", padding: "12px 16px", boxShadow: S, marginBottom: "10px" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            <div style={{ width: "36px", height: "36px", borderRadius: "50%", background: "#00C89618", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-              <User size={16} color="#00C896" strokeWidth={2} />
+            <div style={{ width: "36px", height: "36px", borderRadius: "50%", background: "rgba(0,0,0,0.06)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+              <User size={16} color="#8E8E93" strokeWidth={2} />
             </div>
             <div style={{ flex: 1 }}>
               <p style={{ fontSize: "13px", fontWeight: 600, color: "#1C1C1E" }}>Dr. Sarah Chen</p>
@@ -173,7 +173,7 @@ export default function MedicalIDScreen({ navigate, goBack }: Props) {
         {/* Share */}
         <button
           onClick={share}
-          style={{ width: "100%", height: "50px", background: copied ? "#34C759" : "#00C896", borderRadius: "14px", border: "none", display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", fontSize: "15px", fontWeight: 600, color: "white", transition: "background 0.25s ease", marginBottom: "4px" }}
+          style={{ width: "100%", height: "50px", background: copied ? "#34C759" : "#1C1C1E", borderRadius: "14px", border: "none", display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", fontSize: "15px", fontWeight: 600, color: "white", transition: "background 0.25s ease", marginBottom: "4px" }}
         >
           {copied
             ? <><CheckCircle2 size={18} color="white" strokeWidth={2.5} />Link Copied!</>
