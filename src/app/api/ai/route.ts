@@ -64,7 +64,7 @@ export async function POST(request: Request) {
           { role: "system", content: SYSTEM_PROMPT },
           ...messages.slice(-12),
         ],
-        stream: false,
+        stream: true,
         options: { temperature: 0.4, num_predict: 300 },
       }),
     });
@@ -77,9 +77,14 @@ export async function POST(request: Request) {
       );
     }
 
-    const data = await res.json() as { message?: { content?: string } };
-    return NextResponse.json({ text: data.message?.content ?? "" });
-  } catch {
-    return NextResponse.json({ error: "Request failed" }, { status: 500 });
+    return new Response(res.body, {
+      headers: {
+        "Content-Type": "text/event-stream",
+        "Cache-Control": "no-cache, no-transform",
+        "X-Accel-Buffering": "no",
+      },
+    });
+  } catch (err: unknown) {
+    return NextResponse.json({ error: String(err) }, { status: 500 });
   }
 }

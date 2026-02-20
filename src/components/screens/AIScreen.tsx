@@ -1,7 +1,9 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { ChevronLeft, Send, Sparkles, Loader2 } from "lucide-react";
+import { ChevronLeft, Send, Sparkles, StopCircle } from "lucide-react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import StatusBar from "@/components/ui/StatusBar";
 
 type Screen = "home" | "emergency" | "scanner" | "find-er" | "medical-id" | "ai";
@@ -10,6 +12,7 @@ interface Props { navigate: (s: Screen) => void; goBack: () => void; }
 interface Message {
   role: "user" | "assistant";
   content: string;
+  streaming?: boolean;
 }
 
 const QUICK_PROMPTS = [
@@ -24,6 +27,7 @@ export default function AIScreen({ goBack }: Props) {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const abortRef = useRef<AbortController | null>(null);
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -37,29 +41,84 @@ export default function AIScreen({ goBack }: Props) {
 
     const userMsg: Message = { role: "user", content: trimmed };
     const newMessages = [...messages, userMsg];
-    setMessages(newMessages);
+    setMessages([...newMessages, { role: "assistant", content: "", streaming: true }]);
     setInput("");
     setLoading(true);
+
+    abortRef.current?.abort();
+    abortRef.current = new AbortController();
 
     try {
       const res = await fetch("/api/ai", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ messages: newMessages }),
+        signal: abortRef.current.signal,
       });
-      const data = await res.json();
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({ error: "Request failed" }));
+        setMessages(prev => [
+          ...prev.slice(0, -1),
+          { role: "assistant", content: data.error || "Unable to get a response right now." },
+        ]);
+        return;
+      }
+
+      const reader = res.body!.getReader();
+      const decoder = new TextDecoder();
+      let buf = "";
+      let full = "";
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        buf += decoder.decode(value, { stream: true });
+        const lines = buf.split("\n");
+        buf = lines.pop() ?? "";
+
+        for (const line of lines) {
+          const t = line.trim();
+          if (!t) continue;
+          try {
+            const chunk = JSON.parse(t);
+            const delta = chunk.message?.content ?? "";
+            full += delta;
+            setMessages(prev => [
+              ...prev.slice(0, -1),
+              { role: "assistant", content: full, streaming: !chunk.done },
+            ]);
+          } catch {
+            // skip malformed chunk
+          }
+        }
+      }
+
       setMessages(prev => [
-        ...prev,
-        { role: "assistant", content: data.text || data.error || "Sorry, I could not get a response right now." },
+        ...prev.slice(0, -1),
+        { role: "assistant", content: full, streaming: false },
       ]);
-    } catch {
-      setMessages(prev => [
-        ...prev,
-        { role: "assistant", content: "Unable to reach the AI. Please try again." },
-      ]);
+    } catch (err) {
+      if ((err as Error).name !== "AbortError") {
+        setMessages(prev => [
+          ...prev.slice(0, -1),
+          { role: "assistant", content: "Unable to reach the AI. Please try again." },
+        ]);
+      }
     } finally {
       setLoading(false);
     }
+  }
+
+  function stop() {
+    abortRef.current?.abort();
+    setLoading(false);
+    setMessages(prev => {
+      const last = prev[prev.length - 1];
+      if (last?.streaming) return [...prev.slice(0, -1), { ...last, streaming: false }];
+      return prev;
+    });
   }
 
   return (
@@ -124,21 +183,59 @@ export default function AIScreen({ goBack }: Props) {
               border: msg.role === "assistant" ? "1px solid rgba(255,255,255,0.06)" : "none",
               fontSize: "13px",
               color: "rgba(255,255,255,0.82)",
-              lineHeight: 1.5,
+              lineHeight: 1.6,
             }}>
-              {msg.content}
+              {/* Typing dots when streaming with no content yet */}
+              {!msg.content && msg.streaming && (
+                <span style={{ display: "inline-flex", gap: 4, alignItems: "center" }}>
+                  {[0, 1, 2].map(d => (
+                    <span key={d} style={{
+                      width: 5, height: 5, borderRadius: "50%",
+                      background: "rgba(255,255,255,0.3)",
+                      animation: "pulse 1.2s ease-in-out infinite",
+                      animationDelay: `${d * 200}ms`,
+                    }} />
+                  ))}
+                </span>
+              )}
+
+              {msg.role === "user" && (
+                <span style={{ whiteSpace: "pre-wrap" }}>{msg.content}</span>
+              )}
+
+              {msg.role === "assistant" && msg.content && (
+                <ReactMarkdown
+                  remarkPlugins={[remarkGfm]}
+                  components={{
+                    p: ({ children }) => <p style={{ margin: "0 0 6px", lineHeight: 1.6 }}>{children}</p>,
+                    strong: ({ children }) => <strong style={{ color: "rgba(255,255,255,0.95)", fontWeight: 700 }}>{children}</strong>,
+                    ul: ({ children }) => <ul style={{ margin: "4px 0", paddingLeft: 16, listStyleType: "disc" }}>{children}</ul>,
+                    ol: ({ children }) => <ol style={{ margin: "4px 0", paddingLeft: 16 }}>{children}</ol>,
+                    li: ({ children }) => <li style={{ margin: "2px 0" }}>{children}</li>,
+                    code: ({ children }) => <code style={{ background: "rgba(255,255,255,0.08)", padding: "1px 5px", borderRadius: 3, fontSize: 11, fontFamily: "monospace" }}>{children}</code>,
+                    h1: ({ children }) => <h1 style={{ fontSize: 14, fontWeight: 700, color: "rgba(255,255,255,0.95)", margin: "8px 0 4px" }}>{children}</h1>,
+                    h2: ({ children }) => <h2 style={{ fontSize: 13, fontWeight: 700, color: "rgba(255,255,255,0.9)", margin: "6px 0 3px" }}>{children}</h2>,
+                    h3: ({ children }) => <h3 style={{ fontSize: 12, fontWeight: 600, color: "rgba(255,255,255,0.85)", margin: "5px 0 2px" }}>{children}</h3>,
+                  }}
+                >
+                  {msg.content}
+                </ReactMarkdown>
+              )}
+
+              {/* Streaming cursor */}
+              {msg.role === "assistant" && msg.content && msg.streaming && (
+                <span style={{
+                  display: "inline-block",
+                  width: 2, height: 12,
+                  background: "rgba(255,255,255,0.5)",
+                  marginLeft: 2,
+                  verticalAlign: "text-bottom",
+                  animation: "blink 1s step-end infinite",
+                }} />
+              )}
             </div>
           </div>
         ))}
-
-        {loading && (
-          <div style={{ marginBottom: "10px", display: "flex", justifyContent: "flex-start" }}>
-            <div style={{ padding: "10px 13px", background: "#161616", border: "1px solid rgba(255,255,255,0.06)", borderRadius: "16px 16px 16px 4px", display: "flex", alignItems: "center", gap: "6px" }}>
-              <Loader2 size={13} color="rgba(255,255,255,0.3)" style={{ animation: "spin 1s linear infinite" }} />
-              <span style={{ fontSize: "12px", color: "rgba(255,255,255,0.3)" }}>Thinking...</span>
-            </div>
-          </div>
-        )}
       </div>
 
       {/* Input */}
@@ -151,21 +248,33 @@ export default function AIScreen({ goBack }: Props) {
           disabled={loading}
           style={{ flex: 1, padding: "10px 14px", background: "#1C1C1E", border: "1px solid rgba(255,255,255,0.08)", borderRadius: "12px", fontSize: "13px", color: "rgba(255,255,255,0.85)", outline: "none" }}
         />
-        <button
-          onClick={() => send(input)}
-          disabled={loading || !input.trim()}
-          style={{
-            width: "38px", height: "38px", borderRadius: "12px",
-            background: input.trim() && !loading ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.07)",
-            border: "none", display: "flex", alignItems: "center", justifyContent: "center",
-            flexShrink: 0, transition: "background 0.2s",
-          }}
-        >
-          <Send size={15} color={input.trim() && !loading ? "#000000" : "rgba(255,255,255,0.2)"} strokeWidth={2} />
-        </button>
+        {loading ? (
+          <button
+            onClick={stop}
+            style={{ width: "38px", height: "38px", borderRadius: "12px", background: "rgba(255,79,91,0.12)", border: "1px solid rgba(255,79,91,0.2)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}
+          >
+            <StopCircle size={15} color="#FF4F5B" />
+          </button>
+        ) : (
+          <button
+            onClick={() => send(input)}
+            disabled={!input.trim()}
+            style={{
+              width: "38px", height: "38px", borderRadius: "12px",
+              background: input.trim() ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.07)",
+              border: "none", display: "flex", alignItems: "center", justifyContent: "center",
+              flexShrink: 0, transition: "background 0.2s",
+            }}
+          >
+            <Send size={15} color={input.trim() ? "#000000" : "rgba(255,255,255,0.2)"} strokeWidth={2} />
+          </button>
+        )}
       </div>
 
-      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+      <style>{`
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+        @keyframes pulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+      `}</style>
     </div>
   );
 }
