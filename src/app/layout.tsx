@@ -4,6 +4,9 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Immuny: Interactive Prototype",
   description: "Immuny allergy emergency app, interactive UX redesign prototype",
+  icons: {
+    icon: [{ url: "/immuny-logo.avif", type: "image/avif" }],
+  },
 };
 
 export const viewport: Viewport = {

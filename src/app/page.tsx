@@ -41,28 +41,16 @@ export default function Home() {
         href="https://www.immuny.ai/"
         target="_blank"
         rel="noopener noreferrer"
-        className="absolute top-6 left-6 z-20 flex items-center gap-2.5 group"
+        className="absolute top-5 left-5 z-20 group"
       >
         <Image
           src="/immuny-logo.avif"
           alt="Immuny"
-          width={56}
-          height={56}
-          className="rounded-xl object-contain opacity-70 group-hover:opacity-100 transition-opacity duration-200"
+          width={120}
+          height={120}
+          className="rounded-2xl object-contain opacity-70 group-hover:opacity-100 transition-opacity duration-200"
           unoptimized
         />
-        <span
-          style={{
-            fontSize: "12px",
-            fontWeight: 600,
-            color: "rgba(255,255,255,0.35)",
-            letterSpacing: "0.08em",
-            transition: "color 0.2s ease",
-          }}
-          className="group-hover:text-white"
-        >
-          IMMUNY
-        </span>
       </a>
 
       {/* Ambient glow */}
