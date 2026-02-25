@@ -1,4 +1,4 @@
-# Immuny — Emergency UX Redesign Prototype
+# Immuny: Emergency UX Redesign Prototype
 
 ![Next.js](https://img.shields.io/badge/Next.js_14-black?style=flat-square&logo=next.js)
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
@@ -15,12 +15,12 @@ An interactive mobile app prototype showcasing a UX redesign of Immuny's allergy
 
 ## Features
 
-- **Full iPhone Mockup** — Pixel-perfect iPhone frame with responsive scaling that adapts to any screen size, including scroll-wheel passthrough for the inner viewport
-- **Emergency Response Flow** — One-tap access to detect a reaction, call emergency contacts, and locate the nearest ER — critical actions reachable without thinking
-- **Medical ID Screen** — Persistent display of allergens, current medications, and emergency contacts formatted for first responder access
-- **Find ER Map View** — Nearby emergency room locator with map integration for rapid navigation during an emergency
-- **Scanner Screen** — Allergen detection interface for scanning food products before consumption
-- **Low-Cognitive-Load Design** — High contrast, large touch targets, teal/green brand palette (#00C896) on dark backgrounds, and smooth Framer Motion transitions to reduce friction
+- **Full iPhone Mockup:** Pixel-perfect iPhone frame with responsive scaling that adapts to any screen size, including scroll-wheel passthrough for the inner viewport
+- **Emergency Response Flow:** One-tap access to detect a reaction, call emergency contacts, and locate the nearest ER, with critical actions reachable without thinking
+- **Medical ID Screen:** Persistent display of allergens, current medications, and emergency contacts formatted for first responder access
+- **Find ER Map View:** Nearby emergency room locator with map integration for rapid navigation during an emergency
+- **Scanner Screen:** Allergen detection interface for scanning food products before consumption
+- **Low-Cognitive-Load Design:** High contrast, large touch targets, teal/green brand palette (#00C896) on dark backgrounds, and smooth Framer Motion transitions to reduce friction
 
 ## Tech Stack
 
@@ -35,9 +35,9 @@ An interactive mobile app prototype showcasing a UX redesign of Immuny's allergy
 
 ## Design Principles
 
-- **Speed over features** — critical actions reachable in one tap
+- **Speed over features:** critical actions reachable in one tap
 - **High contrast and large touch targets** for emergency use conditions
-- **Empathy-first** — designed for users in distress, not ideal conditions
+- **Empathy-first:** designed for users in distress, not ideal conditions
 - **Smooth transitions** to reduce cognitive friction under stress
 
 ## Getting Started
@@ -62,5 +62,5 @@ Built as a KTP Spring 2026 consulting engagement focused on UX research, usabili
 
 ## Author
 
-**Caleb Newton** — [calebnewton.me](https://calebnewton.me)
-Kappa Theta Pi · USC · Spring 2026
+**Caleb Newton** at [calebnewton.me](https://calebnewton.me)
+Kappa Theta Pi, USC, Spring 2026
