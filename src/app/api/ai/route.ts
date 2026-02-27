@@ -1,29 +1,7 @@
 import { NextResponse } from "next/server";
+import Anthropic from "@anthropic-ai/sdk";
 
-const OLLAMA_API_KEY = process.env.OLLAMA_API_KEY;
-const OLLAMA_HOST = process.env.OLLAMA_BASE_URL ?? "https://api.ollama.com";
-
-async function resolveModel(): Promise<string> {
-  if (process.env.OLLAMA_MODEL) return process.env.OLLAMA_MODEL;
-  try {
-    const res = await fetch(`${OLLAMA_HOST}/api/tags`, {
-      headers: { Authorization: `Bearer ${OLLAMA_API_KEY}` },
-      signal: AbortSignal.timeout(4_000),
-    });
-    if (!res.ok) return "llama3.2";
-    const data = await res.json() as { models?: { name: string }[] };
-    const models = (data.models ?? []).map((m) => m.name);
-    return (
-      models.find((m) => m.includes("llama3")) ??
-      models.find((m) => m.includes("deepseek")) ??
-      models.find((m) => m.includes("mistral")) ??
-      models[0] ??
-      "llama3.2"
-    );
-  } catch {
-    return "llama3.2";
-  }
-}
+const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
 const SYSTEM_PROMPT = `You are Immuny AI, an allergy emergency assistant embedded in the Immuny app. You help Alex Rivera manage their allergy condition safely.
 
@@ -44,42 +22,41 @@ Your role:
 - Never replace professional medical advice but be maximally helpful in the moment.`;
 
 export async function POST(request: Request) {
-  if (!OLLAMA_API_KEY) {
+  if (!process.env.ANTHROPIC_API_KEY) {
     return NextResponse.json({ error: "AI not configured" }, { status: 500 });
   }
 
   try {
     const { messages } = await request.json();
-    const model = await resolveModel();
 
-    const res = await fetch(`${OLLAMA_HOST}/api/chat`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${OLLAMA_API_KEY}`,
-      },
-      body: JSON.stringify({
-        model,
-        messages: [
-          { role: "system", content: SYSTEM_PROMPT },
-          ...messages.slice(-12),
-        ],
-        stream: true,
-        options: { temperature: 0.4, num_predict: 300 },
-      }),
+    const stream = anthropic.messages.stream({
+      model: "claude-sonnet-4-6",
+      max_tokens: 300,
+      system: SYSTEM_PROMPT,
+      messages: messages.slice(-12),
     });
 
-    if (!res.ok) {
-      const text = await res.text();
-      return NextResponse.json(
-        { error: `AI error: ${res.status} — ${text}` },
-        { status: res.status }
-      );
-    }
+    const encoder = new TextEncoder();
+    const readable = new ReadableStream({
+      async start(controller) {
+        try {
+          for await (const chunk of stream) {
+            if (
+              chunk.type === "content_block_delta" &&
+              chunk.delta.type === "text_delta"
+            ) {
+              controller.enqueue(encoder.encode(chunk.delta.text));
+            }
+          }
+        } finally {
+          controller.close();
+        }
+      },
+    });
 
-    return new Response(res.body, {
+    return new Response(readable, {
       headers: {
-        "Content-Type": "text/event-stream",
+        "Content-Type": "text/plain; charset=utf-8",
         "Cache-Control": "no-cache, no-transform",
         "X-Accel-Buffering": "no",
       },
