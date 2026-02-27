@@ -82,8 +82,8 @@ export default function FindERScreen({ navigate, goBack }: Props) {
       {/* Map */}
       <div style={{ padding: "0 16px 10px" }}>
         <div style={{ height: "120px", borderRadius: "16px", background: "#EAEDEE", position: "relative", overflow: "hidden", boxShadow: S }}>
-          {[1, 2, 3].map(i => <div key={`h${i}`} style={{ position: "absolute", top: `${25 * i}%`, left: 0, right: 0, height: "1px", background: "rgba(0,0,0,0.06)" }} />)}
-          {[1, 2, 3, 4].map(i => <div key={`v${i}`} style={{ position: "absolute", left: `${20 * i}%`, top: 0, bottom: 0, width: "1px", background: "rgba(0,0,0,0.06)" }} />)}
+          {[25, 50, 75].map(pct => <div key={`h${pct}`} style={{ position: "absolute", top: `${pct}%`, left: 0, right: 0, height: "1px", background: "rgba(0,0,0,0.06)" }} />)}
+          {[20, 40, 60, 80].map(pct => <div key={`v${pct}`} style={{ position: "absolute", left: `${pct}%`, top: 0, bottom: 0, width: "1px", background: "rgba(0,0,0,0.06)" }} />)}
           <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}>
             <path d="M 108 96 Q 88 70 62 36" stroke="#8E8E93" strokeWidth="2" strokeDasharray="5 4" fill="none" opacity="0.6" />
           </svg>

@@ -80,8 +80,9 @@ export default function ScannerScreen({ navigate, goBack }: Props) {
           {/* Corner brackets */}
           {[{ top: 12, left: 12 }, { top: 12, right: 12 }, { bottom: 12, left: 12 }, { bottom: 12, right: 12 }].map((pos, i) => {
             const t = "top" in pos; const l = "left" in pos;
+            const cornerKey = `${t ? "top" : "bottom"}-${l ? "left" : "right"}`;
             return (
-              <div key={i} style={{
+              <div key={cornerKey} style={{
                 position: "absolute", width: "20px", height: "20px", ...pos,
                 borderTop: t ? `2.5px solid ${borderColor}` : undefined,
                 borderBottom: !t ? `2.5px solid ${borderColor}` : undefined,

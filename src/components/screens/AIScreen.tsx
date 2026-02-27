@@ -10,6 +10,7 @@ type Screen = "home" | "emergency" | "scanner" | "find-er" | "medical-id" | "ai"
 interface Props { navigate: (s: Screen) => void; goBack: () => void; }
 
 interface Message {
+  id: string;
   role: "user" | "assistant";
   content: string;
   streaming?: boolean;
@@ -39,9 +40,9 @@ export default function AIScreen({ goBack }: Props) {
     const trimmed = text.trim();
     if (!trimmed || loading) return;
 
-    const userMsg: Message = { role: "user", content: trimmed };
+    const userMsg: Message = { id: `user-${Date.now()}`, role: "user", content: trimmed };
     const newMessages = [...messages, userMsg];
-    setMessages([...newMessages, { role: "assistant", content: "", streaming: true }]);
+    setMessages([...newMessages, { id: `assistant-${Date.now()}`, role: "assistant", content: "", streaming: true }]);
     setInput("");
     setLoading(true);
 
@@ -156,9 +157,9 @@ export default function AIScreen({ goBack }: Props) {
           </div>
         )}
 
-        {messages.map((msg, i) => (
+        {messages.map((msg) => (
           <div
-            key={i}
+            key={msg.id}
             style={{ marginBottom: "10px", display: "flex", justifyContent: msg.role === "user" ? "flex-end" : "flex-start" }}
           >
             <div style={{

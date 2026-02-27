@@ -18,6 +18,29 @@ interface NavState {
   dir: "forward" | "back";
 }
 
+interface ScreenRendererProps {
+  screen: Screen;
+  navigate: (s: Screen) => void;
+  goBack: () => void;
+}
+
+function ScreenRenderer({ screen, navigate, goBack }: ScreenRendererProps) {
+  switch (screen) {
+    case "home":
+      return <HomeScreen navigate={navigate} />;
+    case "emergency":
+      return <EmergencyScreen navigate={navigate} goBack={goBack} />;
+    case "scanner":
+      return <ScannerScreen navigate={navigate} goBack={goBack} />;
+    case "find-er":
+      return <FindERScreen navigate={navigate} goBack={goBack} />;
+    case "medical-id":
+      return <MedicalIDScreen navigate={navigate} goBack={goBack} />;
+    case "ai":
+      return <AIScreen navigate={navigate} goBack={goBack} />;
+  }
+}
+
 export default function AppShell() {
   const [history, setHistory] = useState<Screen[]>(["home"]);
   const [navState, setNavState] = useState<NavState>({ screen: "home", key: 0, dir: "forward" });
@@ -39,23 +62,6 @@ export default function AppShell() {
 
   const animClass = navState.dir === "forward" ? "screen-forward" : "screen-back";
 
-  const renderScreen = () => {
-    switch (navState.screen) {
-      case "home":
-        return <HomeScreen navigate={navigate} />;
-      case "emergency":
-        return <EmergencyScreen navigate={navigate} goBack={goBack} />;
-      case "scanner":
-        return <ScannerScreen navigate={navigate} goBack={goBack} />;
-      case "find-er":
-        return <FindERScreen navigate={navigate} goBack={goBack} />;
-      case "medical-id":
-        return <MedicalIDScreen navigate={navigate} goBack={goBack} />;
-      case "ai":
-        return <AIScreen navigate={navigate} goBack={goBack} />;
-    }
-  };
-
   const tabScreens: Screen[] = ["home", "scanner", "find-er", "medical-id", "ai"];
   const showNav = tabScreens.includes(navState.screen);
   const navActive = navState.screen as NavTab;
@@ -69,7 +75,7 @@ export default function AppShell() {
           className={animClass}
           style={{ width: "100%", height: "100%", position: "absolute", inset: 0 }}
         >
-          {renderScreen()}
+          <ScreenRenderer screen={navState.screen} navigate={navigate} goBack={goBack} />
         </div>
       </div>
       {showNav && <BottomNav active={navActive} navigate={(s) => navigate(s as Screen)} dark={darkNav} />}

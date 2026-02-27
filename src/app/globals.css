@@ -280,3 +280,11 @@ body {
   height: 1px;
   background: linear-gradient(to right, rgba(0,200,150,0.4), rgba(0,200,150,0.1));
 }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
