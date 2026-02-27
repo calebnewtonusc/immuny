@@ -67,32 +67,18 @@ export default function AIScreen({ goBack }: Props) {
 
       const reader = res.body!.getReader();
       const decoder = new TextDecoder();
-      let buf = "";
       let full = "";
 
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
 
-        buf += decoder.decode(value, { stream: true });
-        const lines = buf.split("\n");
-        buf = lines.pop() ?? "";
-
-        for (const line of lines) {
-          const t = line.trim();
-          if (!t) continue;
-          try {
-            const chunk = JSON.parse(t);
-            const delta = chunk.message?.content ?? "";
-            full += delta;
-            setMessages(prev => [
-              ...prev.slice(0, -1),
-              { role: "assistant", content: full, streaming: !chunk.done },
-            ]);
-          } catch {
-            // skip malformed chunk
-          }
-        }
+        const text = decoder.decode(value, { stream: true });
+        full += text;
+        setMessages(prev => [
+          ...prev.slice(0, -1),
+          { role: "assistant", content: full, streaming: true },
+        ]);
       }
 
       setMessages(prev => [
