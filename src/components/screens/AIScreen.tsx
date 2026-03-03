@@ -61,7 +61,7 @@ export default function AIScreen({ goBack }: Props) {
         const data = await res.json().catch(() => ({ error: "Request failed" }));
         setMessages(prev => [
           ...prev.slice(0, -1),
-          { role: "assistant", content: data.error || "Unable to get a response right now." },
+          { id: prev[prev.length - 1]?.id ?? `assistant-${Date.now()}`, role: "assistant", content: data.error || "Unable to get a response right now." },
         ]);
         return;
       }
@@ -78,19 +78,19 @@ export default function AIScreen({ goBack }: Props) {
         full += text;
         setMessages(prev => [
           ...prev.slice(0, -1),
-          { role: "assistant", content: full, streaming: true },
+          { id: prev[prev.length - 1]?.id ?? `assistant-${Date.now()}`, role: "assistant", content: full, streaming: true },
         ]);
       }
 
       setMessages(prev => [
         ...prev.slice(0, -1),
-        { role: "assistant", content: full, streaming: false },
+        { id: prev[prev.length - 1]?.id ?? `assistant-${Date.now()}`, role: "assistant", content: full, streaming: false },
       ]);
     } catch (err) {
       if ((err as Error).name !== "AbortError") {
         setMessages(prev => [
           ...prev.slice(0, -1),
-          { role: "assistant", content: "Unable to reach the AI. Please try again." },
+          { id: prev[prev.length - 1]?.id ?? `assistant-${Date.now()}`, role: "assistant", content: "Unable to reach the AI. Please try again." },
         ]);
       }
     } finally {
